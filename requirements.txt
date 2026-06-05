@@ -1,0 +1,13 @@
+numpy
+pandas
+seaborn
+matplotlib
+scikit-learn
+catboost
+
+dill
+flask
+gunicorn
+
+## -e . will auto trigger the setup.py file and it will install the mlproject package in the current environment.
+#-e .

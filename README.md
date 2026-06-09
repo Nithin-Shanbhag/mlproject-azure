@@ -70,40 +70,13 @@ Now I have pickle files for preprocessor and model, lets predict on new data:
 
 ### Step 9:
 
-Deployment in AWS Elastic Beanstock:
-Configurations to be done:
-- Create .ebextensions folder in working directory
-- Insdie the folder, create python.config file - used to tell elastic beanstock instance that what is the entry point of the application
-- In python.config, define container as python and WSGIPath (Flask app entry point) as application:application (1st one indicates the Flask app file name, 2nd one indicates the Flask object name in the file)
-- Ensure to remove debug=true in application.py
-
-- push the config to github repo
-
-- Login to AWS management condole, search elastic beanstalk, hover the mouse over it and click on application, got to elastic beanstalk, here you will observe Create application button.
-
-- Theory on deployment:
-AWS Elastic beanstalk is a server/cloud environment of linux instance where I can create an evironment or deploy a code. My code resides in git hub repo and the configuration required by beanstalk is in python.config . To deploy code and any changes done to it from github to cloud, we use code pipeline. Whenever any changes to code is done, it is automatically deployed on click of a button - Do you want to deploy this code. This pipeline is called continuous delivery pipeline. 
-So step 1 is to create elastic beanstalk instance and also creating an environment. step 2 is to integrate codepipeline with github repo and do continuous deploymwent into elastic beanstalk.
-
-- (Continuation) Click on create application, application name: studentperformance, platform: python, application code: sample application - create application (takes some time to create application)
-
-Now lets create code pipeline and integrate it with our github repo:
-- AWS management console, search: codepipeline (release software for continuous delivery), click on it.
-- Create pipeline
-- category: build custom pipeline, next
-- pipeline name: studentperformance, next
-- source provider: Github via Github app, click connect to github, connect name: studentperformance, connect, repo name: Nithin-Shanbhag/mlproject, branch: main, next
-- skip build stage
-- skip test stage
-- deploy provider: AWS Elastic Beanstalk, app name: studentperformance, env name: Studentperformance-env, next
-- click on create pipeline only after the environment is set
-
-Challenge: Here I encountered deployment error, because while installing dependencies, xgboost package in requirements.txt was installing a huge file: nvidia_nccl_cu12-2.30.4-py3-none-manylinux_2_18_x86_64.whl (300.2 MB)
-Hence I removed xgboost from the requirements.txt file.
-
-- click on aws elastic beanstalk link after successful deployment
-- click on the url, observe our web application
-
-web application homepage url: http://studentperformance1-env.eba-qrpw5nfp.ap-southeast-2.elasticbeanstalk.com/
-web application homepage url: http://studentperformance1-env.eba-qrpw5nfp.ap-southeast-2.elasticbeanstalk.com/predictdata
-
+- Login to MS Azure account
+- Create a reaource
+- Web app, Create
+- subscription: (default value), resource group: testgroupregression, name: studentperformanceprediction, publish: code, runtime stack: python 3.14, OS: Linux, region: south india, click on next till deployment tab
+- continuous deployment: enable, github account: authorize, select organization, repository and branch from drop down, click on review+create
+- review it and click on create
+Challenge: initially received error - insufficient VMs for deployment. resolution: changes region from canada (default) to south india.
+- After build and deploy is complete, search for your web app and click on the domain link.
+Observe your app running.
+Observe in your github repository .yml file is created and under actions tab, see build and deploy.
